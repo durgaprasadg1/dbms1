@@ -199,7 +199,6 @@ async function init() {
     }
     await Medicine.bulkCreate(medicines);
 
-    // create default admin user if User model exists
     try {
       const bcrypt = require('bcryptjs');
       const adminUser = await User.create({
@@ -220,11 +219,11 @@ async function init() {
     }
 
     for (const order of orders) {
-      const numItems = Math.floor(Math.random() * 5) + 1; // 1-5 items
+      const numItems = Math.floor(Math.random() * 5) + 1; 
       for (let j = 0; j < numItems; j++) {
         const medicine =
           medicines[Math.floor(Math.random() * medicines.length)];
-        const quantity = Math.floor(Math.random() * 10) + 1; // 1-10
+        const quantity = Math.floor(Math.random() * 10) + 1; 
         await OrderItem.create({
           orderId: order.id,
           medicineId: medicine.id,

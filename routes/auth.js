@@ -12,19 +12,10 @@ router.get('/signup', (req, res) => {
   res.render('signup', { error: null });
 });
 
-// Signup POST: only allow the pre-agreed admin credentials
 router.post('/signup', async (req, res) => {
   const { username, password } = req.body || {};
   if (!username || !password)
     return res.render('signup', { error: 'Provide username and password' });
-
-  // const ADMIN_USER = 'admin123';
-  // const ADMIN_PASS = '1234567890';
-
-  // if (username !== ADMIN_USER || password !== ADMIN_PASS) {
-  //   return res.render('signup', { error: 'Only the designated admin may sign up' });
-  // }
-
   try {
     let user = await User.findOne({ where: { username } });
     if (!user) {
@@ -45,7 +36,6 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// Login POST
 router.post('/login', async (req, res) => {
   const { username, password } = req.body || {};
   if (!username || !password)
@@ -54,10 +44,8 @@ router.post('/login', async (req, res) => {
   const ADMIN_USER = 'admin123';
   const ADMIN_PASS = '1234567890';
 
-  // If the fixed admin credentials are provided, accept and issue token.
   if (username === ADMIN_USER && password === ADMIN_PASS) {
     try {
-      // ensure user exists in DB for future bcrypt checks
       let user = await User.findOne({ where: { username } });
       if (!user) {
         const hash = await bcrypt.hash(password, 10);
@@ -71,7 +59,6 @@ router.post('/login', async (req, res) => {
     }
   }
 
-  // Otherwise validate against DB user/password (if any)
   try {
     const user = await User.findOne({ where: { username } });
     if (!user) return res.render('login', { error: 'Invalid credentials' });
@@ -87,7 +74,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Logout route
 router.get('/logout', (req, res) => {
   res.clearCookie('token');
   res.redirect('/login');

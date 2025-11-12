@@ -140,19 +140,16 @@
   <div id="results" class="mt-8 space-y-6"></div>
 </div>
 <script>
-  // Helper to format result objects into small tables or summaries
   function formatResults(results) {
     if (!results || results.length === 0) return "<p>No data</p>";
 
     const sample = results[0];
     const keys = Object.keys(sample);
 
-    // Detect type
     if (
       keys.includes("name") &&
       (keys.includes("price") || keys.includes("stock"))
     ) {
-      // Medicines / joined supplier
       let html =
         '<table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr>';
       html +=
@@ -186,7 +183,6 @@
       html += "</tbody></table>";
       return html;
     } else if (keys.includes("name") && keys.includes("contact")) {
-      // Suppliers
       let html =
         '<table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr>';
       html +=
@@ -208,7 +204,6 @@
       html += "</tbody></table>";
       return html;
     } else if (keys.includes("id") && keys.includes("status")) {
-      // Orders
       let html =
         '<table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr>';
       html +=
@@ -230,18 +225,14 @@
       html += "</tbody></table>";
       return html;
     } else if (keys.length === 1 && keys[0].toLowerCase().includes("count")) {
-      // Count
       return `<p class="text-sm">Count: ${sample[keys[0]]}</p>`;
     } else if (keys.length === 1 && keys[0].toLowerCase().includes("avg")) {
-      // Average
       return `<p class="text-sm">Average: ${parseFloat(sample[keys[0]]).toFixed(
         2
       )}</p>`;
     } else if (keys.length === 1 && keys[0].toLowerCase().includes("sum")) {
-      // Sum
       return `<p class="text-sm">Total: ${sample[keys[0]]}</p>`;
     } else {
-      // Default JSON
       return `<pre class="text-xs bg-gray-100 p-2 mt-2 rounded overflow-auto max-h-40">${JSON.stringify(
         results.slice(0, 5),
         null,
@@ -250,10 +241,8 @@
     }
   }
 
-  // Chart instance holder
   let perfChartInstance = null;
 
-  // Submit handler: collects form fields and selected tests, sends payload to server
   document.getElementById("perfForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const f = e.target.elements;
@@ -287,7 +276,6 @@
       return;
     }
 
-    // Only render up to 5 result cards to avoid overwhelming the page
     data.results.slice(0, 5).forEach((result, index) => {
       const div = document.createElement("div");
       div.className = "bg-white p-6 rounded shadow";
@@ -324,7 +312,6 @@
       resultsDiv.appendChild(div);
     });
 
-    // Build a grouped bar chart across all returned tests (limited to 10 for clarity)
     const chartLimit = 10;
     const chartData = data.results.slice(0, chartLimit).filter((r) => !r.error);
     if (chartData.length) {
@@ -334,13 +321,11 @@
       );
       const withTimes = chartData.map((r) => Number(r.withIndex.time) || 0);
 
-      // Compute suggested max to make small differences visible
       const allTimes = withoutTimes.concat(withTimes);
       const maxTime = Math.max(...allTimes, 1);
       const suggestedMax = Math.ceil(maxTime * 1.15);
 
       const ctx = document.getElementById("perfChart");
-      // Destroy previous chart instance if present to avoid stacking
       if (perfChartInstance) {
         perfChartInstance.destroy();
       }
@@ -374,7 +359,6 @@
         },
       });
     } else {
-      // If no successful chartable results, clear existing chart
       if (perfChartInstance) {
         perfChartInstance.destroy();
         perfChartInstance = null;

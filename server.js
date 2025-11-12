@@ -133,7 +133,6 @@ app.get('/medicines/:id/edit', async (req, res) => {
   res.render('add_medicine', { suppliers, medicine: med });
 });
 
-// update
 app.post('/medicines/:id', async (req, res) => {
   if (!req.user) return res.redirect('/login');
   const med = await Medicine.findByPk(req.params.id);
@@ -167,7 +166,6 @@ app.post('/medicines/:id', async (req, res) => {
   res.redirect('/medicines');
 });
 
-// expiry tracker
 app.get('/expiring', async (req, res) => {
   const moment = require('moment');
   const today = moment().format('YYYY-MM-DD');
@@ -205,7 +203,6 @@ app.post("/orders", async (req, res) => {
       quantity: parseInt(it.quantity),
     }));
   } else if (typeof items === "object") {
-    // single item or map
     if (items.medicineId) {
       parsed.push({
         medicineId: parseInt(items.medicineId),
