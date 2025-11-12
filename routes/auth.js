@@ -4,12 +4,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 
-// Render login page
 router.get('/login', (req, res) => {
   res.render('login', { error: null });
 });
 
-// Render signup page
 router.get('/signup', (req, res) => {
   res.render('signup', { error: null });
 });
@@ -20,12 +18,12 @@ router.post('/signup', async (req, res) => {
   if (!username || !password)
     return res.render('signup', { error: 'Provide username and password' });
 
-  const ADMIN_USER = 'admin123';
-  const ADMIN_PASS = '1234567890';
+  // const ADMIN_USER = 'admin123';
+  // const ADMIN_PASS = '1234567890';
 
-  if (username !== ADMIN_USER || password !== ADMIN_PASS) {
-    return res.render('signup', { error: 'Only the designated admin may sign up' });
-  }
+  // if (username !== ADMIN_USER || password !== ADMIN_PASS) {
+  //   return res.render('signup', { error: 'Only the designated admin may sign up' });
+  // }
 
   try {
     let user = await User.findOne({ where: { username } });
@@ -41,7 +39,7 @@ router.post('/signup', async (req, res) => {
     );
 
     res.cookie('token', token, { httpOnly: true, maxAge: 4 * 3600 * 1000 });
-    return res.redirect('/medicines');
+    return res.redirect('/login');
   } catch (err) {
     return res.render('signup', { error: 'Signup failed: ' + err.message });
   }

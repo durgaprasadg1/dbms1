@@ -61,7 +61,11 @@
           ₹<%= m.price %>
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-          <%= m.stock %>
+          <% if (Number(m.stock) < 15) { %>
+            Low Stock - <%= m.stock %>
+          <% } else{ %> 
+             <%= m.stock %>
+             <% } %>
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
           <%= m.expiryDate ? moment(m.expiryDate).format('YYYY-MM-DD') : '—' %>
@@ -77,4 +81,3 @@
   </table>
 </div>
 
-<%- include('partials/footer') %>

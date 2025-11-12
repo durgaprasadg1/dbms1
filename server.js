@@ -14,7 +14,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// expose JWT-auth user (if present) and low-stock count to views
 app.use(async (req, res, next) => {
   const token = req.cookies && req.cookies.token;
   if (token) {
@@ -64,7 +63,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  // default to login/signup when unauthenticated
   if (!req.user) return res.redirect('/login');
   return res.redirect('/medicines');
 });
@@ -101,10 +99,8 @@ app.get("/medicines/new", async (req, res) => {
 });
 
 app.post("/medicines", async (req, res) => {
-  // ensure authenticated via JWT
   if (!req.user) return res.redirect('/login');
   const { name, supplierId, price, stock, expiryDate } = req.body;
-  // prevent inserting already-expired medicines
   try {
     if (expiryDate) {
       const today = new Date();
@@ -129,7 +125,6 @@ app.post("/medicines", async (req, res) => {
   res.redirect("/medicines");
 });
 
-// edit form
 app.get('/medicines/:id/edit', async (req, res) => {
   if (!req.user) return res.redirect('/login');
   const med = await Medicine.findByPk(req.params.id);
@@ -144,7 +139,6 @@ app.post('/medicines/:id', async (req, res) => {
   const med = await Medicine.findByPk(req.params.id);
   if (!med) return res.status(404).send('Not found');
   const { name, supplierId, price, stock, expiryDate } = req.body;
-  // prevent updating to an already-expired date
   try {
     if (expiryDate) {
       const today = new Date();
@@ -153,7 +147,6 @@ app.post('/medicines/:id', async (req, res) => {
       ed.setHours(0,0,0,0);
       if (ed < today) {
         const suppliers = await Supplier.findAll();
-        // return the form with submitted values and error
         med.name = name;
         med.supplierId = supplierId || null;
         med.price = parseFloat(price) || 0;

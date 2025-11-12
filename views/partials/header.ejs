@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Pharma Management</title>
-    <!-- Tailwind via CDN for quick styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/style.css" />
   </head>
@@ -25,6 +24,7 @@
           <a href="/logout" class="ml-3 hover:underline">Logout</a>
           <% } else { %>
           <a href="/login" class="ml-3 hover:underline">Login</a>
+          <a href="/signup" class="ml-3 hover:underline">SignUp</a>
           <% } %>
           <% if (typeof lowStockCount !== 'undefined' && lowStockCount > 0) { %>
           <a href="/medicines" class="ml-4 text-red-200">Low stock: <%= lowStockCount %></a>
