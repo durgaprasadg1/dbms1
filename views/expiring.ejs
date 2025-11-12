@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+
+<h2 class="text-2xl font-semibold mb-4">Expiry Tracker</h2>
+
+<div class="grid grid-cols-2 gap-6">
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-semibold">Expired</h3>
+    <% if (expired.length === 0) { %>
+    <div class="text-sm text-gray-600 mt-2">No expired medicines.</div>
+    <% } else { %>
+    <ul class="mt-2 space-y-2">
+      <% expired.forEach(m => { %>
+      <li class="flex justify-between">
+        <div><%= m.name %> - <%= m.Supplier ? m.Supplier.name : '—' %></div>
+        <div class="text-red-600"><%= moment(m.expiryDate).format('YYYY-MM-DD') %></div>
+      </li>
+      <% }) %>
+    </ul>
+    <% } %>
+  </div>
+
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-semibold">Expiring in next 30 days</h3>
+    <% if (expiringSoon.length === 0) { %>
+    <div class="text-sm text-gray-600 mt-2">No medicines expiring soon.</div>
+    <% } else { %>
+    <ul class="mt-2 space-y-2">
+      <% expiringSoon.forEach(m => { %>
+      <li class="flex justify-between">
+        <div><%= m.name %> - <%= m.Supplier ? m.Supplier.name : '—' %></div>
+        <div class="text-yellow-600"><%= moment(m.expiryDate).format('YYYY-MM-DD') %></div>
+      </li>
+      <% }) %>
+    </ul>
+    <% } %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

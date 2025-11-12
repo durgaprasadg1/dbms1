@@ -1,0 +1,52 @@
+body {
+  font-family: Segoe UI, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f7f9fb;
+  color: #222;
+}
+header {
+  background: #0b66a6;
+  color: #fff;
+  padding: 12px 18px;
+}
+header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+nav {
+  margin-top: 6px;
+}
+main {
+  padding: 18px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+}
+th,
+td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.item-row {
+  margin-bottom: 8px;
+}
+button {
+  background: #0b66a6;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+button#addItem {
+  background: #666;
+}
+footer {
+  padding: 12px 18px;
+  background: #fff;
+  margin-top: 18px;
+  border-top: 1px solid #eee;
+}

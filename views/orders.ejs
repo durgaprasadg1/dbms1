@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+
+<div class="flex items-center justify-between mb-6">
+  <h2 class="text-2xl font-semibold">Orders</h2>
+  <a
+    href="/orders/new"
+    class="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+    >Create order</a
+  >
+</div>
+
+<div class="space-y-4">
+  <% if (!orders || !orders.length) { %>
+  <div class="bg-white p-4 rounded shadow">No orders yet.</div>
+  <% } else { %> <% orders.forEach(o => { %>
+  <div class="bg-white p-4 rounded shadow">
+    <div class="flex items-center justify-between">
+      <div class="text-sm font-medium">Order #<%= o.id %></div>
+      <div class="text-xs text-gray-500"><%= o.createdAt.toISOString() %></div>
+    </div>
+    <ul class="mt-3 list-disc list-inside">
+      <% if (o.OrderItems && o.OrderItems.length) { %> <%
+      o.OrderItems.forEach(it => { %>
+      <li class="text-sm">
+        <%= it.quantity %> × <%= it.Medicine ? it.Medicine.name : 'Unknown' %>
+        (@ <%= it.priceAtPurchase %>)
+      </li>
+      <% }) %> <% } else { %>
+      <li class="text-sm">No items</li>
+      <% } %>
+    </ul>
+  </div>
+  <% }) %> <% } %>
+</div>
+

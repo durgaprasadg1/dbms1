@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+<div class="bg-white p-6 rounded shadow max-w-2xl">
+  <h2 class="text-xl font-semibold mb-4">Create Order</h2>
+  <form method="post" action="/orders" id="orderForm" class="space-y-4">
+    <div id="items" class="space-y-3">
+      <div class="flex gap-3 item-row">
+        <select
+          name="items[0][medicineId]"
+          class="flex-1 rounded border-gray-300"
+        >
+          <% medicines.forEach((m) => { %>
+          <option value="<%= m.id %>">
+            <%= m.name %> (stock: <%= m.stock %>)
+          </option>
+          <% }) %>
+        </select>
+        <input
+          name="items[0][quantity]"
+          type="number"
+          value="1"
+          min="1"
+          class="w-24 rounded border-gray-300"
+        />
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button type="button" id="addItem" class="bg-gray-200 px-3 py-1 rounded">
+        Add another item
+      </button>
+      <button
+        type="submit"
+        class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+      >
+        Place Order
+      </button>
+      <a href="/orders" class="ml-3 text-sm text-gray-600">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  const medicines = JSON.stringify(medicines.map(m=>({id:m.id,name:m.name,stock:m.stock}))) ;
+  let idx = 1;
+  document.getElementById('addItem').addEventListener('click', () => {
+    const div = document.createElement('div');
+    div.className = 'flex gap-3 item-row';
+    const sel = document.createElement('select');
+    sel.name = `items[${idx}][medicineId]`;
+    sel.className = 'flex-1 rounded border-gray-300';
+    medicines.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = `${m.name} (stock: ${m.stock})`;
+      sel.appendChild(opt);
+    });
+    const inp = document.createElement('input');
+    inp.type = 'number'; inp.name = `items[${idx}][quantity]`; inp.value = 1; inp.min = 1;
+    inp.className = 'w-24 rounded border-gray-300';
+    div.appendChild(sel); div.appendChild(inp);
+    document.getElementById('items').appendChild(div);
+    idx++;
+  });
+</script>

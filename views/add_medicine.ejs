@@ -1,0 +1,76 @@
+<%- include('partials/header') %>
+
+<div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl font-semibold mb-4"><%= (typeof medicine !== 'undefined' && medicine) ? 'Edit Medicine' : 'Add Medicine' %></h2>
+  <form method="post" action="<%= (typeof medicine !== 'undefined' && medicine) ? ('/medicines/' + medicine.id) : '/medicines' %>" class="space-y-4">
+    <% if (typeof error !== 'undefined' && error) { %>
+    <div class="mb-4 text-red-600"><%= error %></div>
+    <% } %>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Name</label>
+      <input
+        name="name"
+        required
+        class="mt-1 block w-full rounded border-gray-300"
+        value="<%= (typeof medicine !== 'undefined' && medicine && medicine.name) ? medicine.name : (formData && formData.name ? formData.name : '') %>"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Supplier</label>
+      <select
+        name="supplierId"
+        class="mt-1 block w-full rounded border-gray-300"
+      >
+        <option value="">-- none --</option>
+        <% suppliers.forEach(s => { %>
+        <option value="<%= s.id %>"><%= s.name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Price</label>
+        <input
+          name="price"
+          type="number"
+          step="0.01"
+          value="0"
+          class="mt-1 block w-full rounded border-gray-300"
+        />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Stock</label>
+        <input
+          name="stock"
+          type="number"
+          value="0"
+          class="mt-1 block w-full rounded border-gray-300"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
+      <input
+        name="expiryDate"
+        type="date"
+        class="mt-1 block w-full rounded border-gray-300"
+        value="<%= (typeof medicine !== 'undefined' && medicine && medicine.expiryDate) ? medicine.expiryDate : (formData && formData.expiryDate ? formData.expiryDate : '') %>"
+      />
+    </div>
+
+    <div>
+      <button
+        type="submit"
+        class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+      >
+        <%= (typeof medicine !== 'undefined' && medicine) ? 'Update' : 'Add' %>
+      </button>
+      <a href="/medicines" class="ml-3 text-sm text-gray-600">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

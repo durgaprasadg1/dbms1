@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl font-semibold mb-4">Sign Up (admin only)</h2>
+  <% if (typeof error !== 'undefined' && error) { %>
+  <div class="mb-4 text-red-600"><%= error %></div>
+  <% } %>
+  <form method="post" action="/signup" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Username</label>
+      <input name="username" required class="mt-1 block w-full rounded border-gray-300" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Password</label>
+      <input name="password" type="password" required class="mt-1 block w-full rounded border-gray-300" />
+    </div>
+    <div>
+      <button class="bg-indigo-600 text-white px-4 py-2 rounded">Sign up</button>
+      <a href="/login" class="ml-3 text-sm text-gray-600">Back to login</a>
+    </div>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,80 @@
+<%- include('partials/header') %>
+
+<div class="flex items-center justify-between mb-6">
+  <h2 class="text-2xl font-semibold">Medicines</h2>
+  <div class="flex items-center space-x-3">
+    <form method="get" action="/medicines" class="flex items-center space-x-2">
+      <input name="q" placeholder="Search name" class="rounded border px-2 py-1" />
+      <input name="stockLessThan" placeholder="Max stock" class="rounded border px-2 py-1 w-24" />
+      <button class="bg-gray-200 px-2 py-1 rounded">Search</button>
+    </form>
+    <% if (currentUser) { %>
+    <a href="/medicines/new" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Add new medicine</a>
+    <% } %>
+  </div>
+</div>
+
+<div class="bg-white shadow rounded overflow-hidden">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Name
+        </th>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Supplier
+        </th>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Price
+        </th>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Stock
+        </th>
+        <th
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          Expiry Date
+        </th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% medicines.forEach(m => { %>
+      <tr>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="text-sm font-medium text-gray-900"><%= m.name %></div>
+          <% if (m.lowStockFlag) { %>
+          <div class="text-xs text-red-600">Low Stock!</div>
+          <% } %>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+          <%= m.Supplier ? m.Supplier.name : '—' %>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+          ₹<%= m.price %>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+          <%= m.stock %>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+          <%= m.expiryDate ? moment(m.expiryDate).format('YYYY-MM-DD') : '—' %>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+          <% if (currentUser) { %>
+          <a href="/medicines/<%= m.id %>/edit" class="text-indigo-600">Edit</a>
+          <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('partials/footer') %>
