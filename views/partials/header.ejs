@@ -14,12 +14,12 @@
       >
         <h1 class="text-xl font-semibold">Pharmaceutical Management System</h1>
         <nav class="space-x-4 text-sm">
+           <% if (currentUser) { %>
           <a href="/medicines" class="hover:underline">Medicines</a>
           <a href="/suppliers" class="hover:underline">Suppliers</a>
           <a href="/orders" class="hover:underline">Orders</a>
           <a href="/perf/medicines-search" class="hover:underline">Performance Test</a>
           <a href="/expiring" class="hover:underline">Expiring</a>
-          <% if (currentUser) { %>
           <span class="ml-4 text-sm">Hello, <%= currentUser.username %></span>
           <a href="/logout" class="ml-3 hover:underline">Logout</a>
           <% } else { %>
@@ -27,7 +27,6 @@
           <a href="/signup" class="ml-3 hover:underline">SignUp</a>
           <% } %>
           <% if (typeof lowStockCount !== 'undefined' && lowStockCount > 0) { %>
-          <a href="/medicines" class="ml-4 text-red-200">Low stock: <%= lowStockCount %></a>
           <% } %>
         </nav>
       </div>

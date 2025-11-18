@@ -30,7 +30,7 @@ router.post('/signup', async (req, res) => {
     );
 
     res.cookie('token', token, { httpOnly: true, maxAge: 4 * 3600 * 1000 });
-    return res.redirect('/login');
+    return res.redirect('/medicines');
   } catch (err) {
     return res.render('signup', { error: 'Signup failed: ' + err.message });
   }

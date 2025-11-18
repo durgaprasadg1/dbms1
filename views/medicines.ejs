@@ -2,6 +2,7 @@
 
 <div class="flex items-center justify-between mb-6">
   <h2 class="text-2xl font-semibold">Medicines</h2>
+  
   <div class="flex items-center space-x-3">
     <form method="get" action="/medicines" class="flex items-center space-x-2">
       <input name="q" placeholder="Search name" class="rounded border px-2 py-1" />
@@ -50,9 +51,7 @@
       <tr>
         <td class="px-6 py-4 whitespace-nowrap">
           <div class="text-sm font-medium text-gray-900"><%= m.name %></div>
-          <% if (m.lowStockFlag) { %>
-          <div class="text-xs text-red-600">Low Stock!</div>
-          <% } %>
+          
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
           <%= m.Supplier ? m.Supplier.name : '—' %>
@@ -62,7 +61,7 @@
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
           <% if (Number(m.stock) < 15) { %>
-            Low Stock - <%= m.stock %>
+            <p class="text-red-600 bg-red-100 p-2">Low Stock - <%= m.stock %></p>
           <% } else{ %> 
              <%= m.stock %>
              <% } %>
